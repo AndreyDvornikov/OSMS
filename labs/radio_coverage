@@ -6,8 +6,8 @@ num_sectors = 3
 UE_Ptx = 24  # dBm
 BS_Gain = 21  # dBi
 UE_Gain = 0 # dBi
-wall_penetration_loss = 15  # dB
-interference_margin = 1  # dB
+PenetrationM = 15  # dB
+IM = 1  # dB
 propagation_model_macro = "COST 231 Hata"
 propagation_model_micro_femto = "UMiNLOS"
 freq_band = 1.8  # GHz
@@ -27,7 +27,13 @@ MSU_loss = 0.4 # dB
 Jumper_loss = 0.5 # dB
 
 N0 = -174 + 10 * np.log10(bandwidth_UL * 1e6)
-BS_Prx_min = N0 + BS_Noise_Figure + SINR_req_UL
-MAPL_UL = UE_Ptx + UE_Gain + BS_Gain - feeder_loss - MSU_loss - Jumper_loss - BS_Prx_min - wall_penetration_loss - interference_margin
+RxSensBS = N0 + BS_Noise_Figure + SINR_req_UL
+MAPL_UL = UE_Ptx + UE_Gain + BS_Gain - feeder_loss - MSU_loss - Jumper_loss - RxSensBS - PenetrationM - IM
 
 print("MAPL_UL:", MAPL_UL)
+
+N0_Dl = -174 + 10 * np.log10(bandwidth_DL * 1e6)
+RxSensUE = N0_Dl + UE_Noise_Figure + SINR_req_DL
+MAPL_DL = BS_Ptx + BS_Gain + UE_Gain - feeder_loss - MSU_loss - Jumper_loss - RxSensUE - PenetrationM - IM
+
+print("MAPL_DL:", MAPL_DL)
