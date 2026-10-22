@@ -1,0 +1,26 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+BS_Ptx = 46  # dBm
+num_sectors = 3
+UE_Ptx = 24  # dBm
+BS_Gain = 21  # dBi
+UE_Gain = 0 # dBi
+wall_penetration_loss = 15  # dB
+interference_margin = 1  # dB
+propagation_model_macro = "COST 231 Hata"
+propagation_model_micro_femto = "UMiNLOS"
+freq_band = 1.8  # GHz
+bandwidth_UL = 10  # MHz
+bandwidth_DL = 20  # MHz
+duplex_mode = "FDD"
+BS_Noise_Figure = 2.4  # dB
+UE_Noise_Figure = 6.0  # dB
+SINR_req_DL = 2  # dB
+SINR_req_UL = 4  # dB
+BS_mimo_antennas = 2
+area_total = 100  # sq km
+area_micro_femto = 4  # sq km
+has_feeders = True
+
+
