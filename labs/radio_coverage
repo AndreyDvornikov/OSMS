@@ -22,5 +22,12 @@ BS_mimo_antennas = 2
 area_total = 100  # sq km
 area_micro_femto = 4  # sq km
 has_feeders = True
+feeder_loss = 2 # dB
+MSU_loss = 0.4 # dB
+Jumper_loss = 0.5 # dB
 
+N0 = -174 + 10 * np.log10(bandwidth_UL * 1e6)
+BS_Prx_min = N0 + BS_Noise_Figure + SINR_req_UL
+MAPL_UL = UE_Ptx + UE_Gain + BS_Gain - feeder_loss - MSU_loss - Jumper_loss - BS_Prx_min - wall_penetration_loss - interference_margin
 
+print("MAPL_UL:", MAPL_UL)
