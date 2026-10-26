@@ -1,61 +1,84 @@
 # OSMS
 
-Учебные работы по цифровой обработке сигналов на Python: дискретизация, квантование и анализ аудио.
+Учебный репозиторий по системам мобильной связи. Работы написаны на Python и относятся к темам лабораторных: дискретизация, квантование, спектральный анализ аудио и расчёт потерь в радиоканале.
 
-## Структура
+## Что есть в проекте
+
+- исследование дискретизации гармонического сигнала и влияния частоты дискретизации;
+- сравнение спектров и оценка ошибки квантования для разной разрядности АЦП;
+- анализ WAV-файла во временной и частотной областях;
+- прореживание аудиосигнала и сравнение спектров до и после обработки;
+- генерация простого музыкального фрагмента;
+- добавление постоянного смещения к аудиосигналу;
+- оценка MAPL, радиуса соты и количества базовых станций для заданной площади.
+
+## Структура репозитория
 
 ```text
 .
 ├── data/
-│   └── audio/                 # исходная WAV-запись и проект Audacity
-├── labs/                      # скрипты лабораторных и экспериментов
+│   └── audio/
+│       ├── input.wav              # исходная аудиозапись
+│       └── audacity_project.aup3  # проект Audacity
+├── labs/
+│   ├── lab01_sampling_quantization.py
+│   ├── lab01_audio_analysis.py
+│   ├── lab01_audio_generation.py
+│   ├── lab01_audio_offset.py
+│   └── lab02_radio_coverage       # расчёт радиопокрытия
 ├── outputs/
-│   ├── audio/                 # обработанные аудиофайлы
-│   └── figures/               # графики лабораторных
+│   ├── audio/                     # сохранённые аудиофайлы
+│   └── figures/                   # готовые графики
 ├── requirements.txt
 └── README.md
 ```
 
-## Работы
+## Скрипты
 
-| Скрипт | Описание |
-| --- | --- |
-| [`labs/lab01_sampling_quantization.py`](labs/lab01_sampling_quantization.py) | Дискретизация гармонического сигнала, спектры и квантование |
-| [`labs/lab02_audio_analysis.py`](labs/lab02_audio_analysis.py) | Временной фрагмент, спектры WAV-аудио и прореживание |
-| [`labs/audio_generation.py`](labs/audio_generation.py) | Генерация и воспроизведение музыкального фрагмента |
-| [`labs/audio_offset.py`](labs/audio_offset.py) | Пример обработки WAV с добавлением постоянного смещения |
+| Файл                                                                         | Назначение                                                         |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [`labs/lab01_sampling_quantization.py`](labs/lab01_sampling_quantization.py) | Дискретизация гармонического сигнала, расчёт спектра и квантование |
+| [`labs/lab01_audio_analysis.py`](labs/lab01_audio_analysis.py)               | Анализ WAV-файла, ручное ДПФ/БПФ и прореживание сигнала            |
+| [`labs/lab01_audio_generation.py`](labs/lab01_audio_generation.py)           | Генерация и воспроизведение музыкального фрагмента                 |
+| [`labs/lab01_audio_offset.py`](labs/lab01_audio_offset.py)                   | Добавление постоянного смещения и сохранение нового WAV-файла      |
+| [`labs/lab02_radio_coverage`](labs/lab02_radio_coverage)                     | Расчёт потерь сигнала по моделям COST 231 и радиуса покрытия       |
 
-Графики доступны в [`outputs/figures/`](outputs/figures/). Исходная запись для аудио-скриптов находится в `data/audio/input.wav`.
+## Установка
 
-## Запуск
-
-Требуется Python 3. Установите зависимости:
+Нужен Python 3. Для установки библиотек выполните команды из корня репозитория:
 
 ```bash
+python -m venv venv
+source venv/bin/activate       # Linux/macOS
+# venv\Scripts\activate        # Windows
 python -m pip install -r requirements.txt
 ```
 
-Запускайте скрипты из корня репозитория:
+В проекте используются `numpy`, `scipy`, `matplotlib` и `sounddevice`. Для воспроизведения звука через `sounddevice` также может понадобиться установленная в системе библиотека PortAudio.
+
+## Запуск
+
+Все команды нужно выполнять из корня репозитория:
 
 ```bash
 python labs/lab01_sampling_quantization.py
-python labs/lab02_audio_analysis.py
-python labs/audio_generation.py
-python labs/audio_offset.py
+python labs/lab01_audio_analysis.py
+python labs/lab01_audio_generation.py
+python labs/lab01_audio_offset.py
+python labs/lab02_radio_coverage
 ```
 
-Графические скрипты открывают окна Matplotlib. Скрипты воспроизведения требуют доступного аудиоустройства; для `sounddevice` может понадобиться системная библиотека PortAudio. `audio_offset.py` сохраняет результат в `outputs/audio/offset.wav`.
+Графики открываются в окнах Matplotlib. Скрипт `lab01_audio_offset.py` дополнительно сохраняет обработанный файл в [`outputs/audio/offset.wav`](outputs/audio/offset.wav).
 
-## Примеры
+## Результаты
 
-**Дискретизация и спектры**
+Готовые изображения находятся в каталоге [`outputs/figures/`](outputs/figures/):
 
-![Дискретизация и спектры](outputs/figures/lab01_sampling.png)
+- [`lab01_sampling.png`](outputs/figures/lab01_sampling.png) — сравнение исходного и дискретных сигналов;
+- [`lab01_spectrum.png`](outputs/figures/lab01_spectrum.png) — спектральный анализ;
+- [`lab01_quantization.png`](outputs/figures/lab01_quantization.png) — влияние разрядности квантования;
+- [`lab01_waveform.png`](outputs/figures/lab01_waveform.png) — временная форма аудиосигнала;
+- [`lab01_downsampling.png`](outputs/figures/lab01_downsampling.png) — результат прореживания;
+- [`lab02_pathloss.png`](outputs/figures/lab02_pathloss.png) — потери сигнала в зависимости от расстояния.
 
-**Квантование**
-
-![Спектры при разной разрядности квантования](outputs/figures/lab01_quantization.png)
-
-**Фрагмент аудиосигнала**
-
-![Временной фрагмент WAV-аудио](outputs/figures/lab02_waveform.png)
+Основные исходные данные для аудио находятся в `data/audio/input.wav`.
